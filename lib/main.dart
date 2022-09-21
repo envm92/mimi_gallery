@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setImagesToDisplay = Set();
     Random random = Random();
     while(setImagesToDisplay.length < 36) {
-      setImagesToDisplay.add(images[random.nextInt(37)]);
+      setImagesToDisplay.add(images[random.nextInt(images.length)]);
     }
     imagesToDisplay = setImagesToDisplay.toList();
   }
