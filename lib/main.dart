@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mimi_gallery/blocs/images/images_bloc.dart';
+import 'package:mimi_gallery/blocs/images/images_repository.dart';
+import 'firebase_options.dart';
 import 'package:mimi_gallery/routes.dart';
 import 'package:mimi_gallery/theme.dart';
 
-void main() {
-  runApp(const MimiGallery());
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final imagesRepository = ImagesRepository();
+  runApp(BlocProvider(
+      create: (BuildContext context) =>
+          ImagesBloc(imagesRepository: imagesRepository),
+    child: const MimiGallery(),
+  ));
 }
 
 class MimiGallery extends StatelessWidget {
@@ -19,4 +32,3 @@ class MimiGallery extends StatelessWidget {
     );
   }
 }
-
