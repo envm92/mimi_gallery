@@ -53,12 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: '',
-    appId: '',
-    messagingSenderId: '',
-    projectId: '',
-    authDomain: '',
-    storageBucket: '',
-    measurementId: '',
+    apiKey: '<--apiKey--->',
+    appId: '<--appId--->',
+    messagingSenderId: '<--messagingSenderId--->',
+    projectId: '<--projectId--->',
+    authDomain: '<--authDomain--->',
+    storageBucket: '<--storageBucket--->',
+    measurementId: '<--measurementId-->',
   );
 }
