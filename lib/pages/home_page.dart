@@ -6,6 +6,7 @@ import 'package:mimi_gallery/blocs/images/images_event.dart';
 import 'package:mimi_gallery/models/image.dart';
 import 'package:mimi_gallery/widgets/images_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mimi_gallery/blocs/images/images_state.dart';
 
@@ -62,10 +63,23 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                    placeholder: (context, url) => SizedBox(
+                      width: 350,
+                      height: 350,
+                      child: Shimmer.fromColors(
+                        baseColor: const Color(0xFFEBEBF4),
+                        highlightColor: const Color(0xFFEBEBF4),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.pinkAccent,
+                              shape: BoxShape.circle
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   UnconstrainedBox(
                     child: LimitedBox(
-                        maxHeight: 150,
                         maxWidth: 300,
                         child: RichText(
                           textAlign: TextAlign.center,
@@ -86,18 +100,29 @@ class _HomePageState extends State<HomePage> {
                           ),
                         )),
                   ),
+                  (images.isNotEmpty) ?
                   ElevatedButton(
-                    onPressed: (images.isNotEmpty)
-                        ? () {
+                    onPressed: () {
                             setState(() {
                               _displayGrid = true;
                             });
-                          }
-                        : null,
+                          },
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         text: 'Go to gallery',
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .copyWith(fontSize: 20),
+                      ),
+                    ),
+                  ) : Shimmer.fromColors(
+                    baseColor: const Color(0xFFEBEBF4),
+                    highlightColor: Colors.pinkAccent,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: 'Loading...',
                         style: DefaultTextStyle.of(context)
                             .style
                             .copyWith(fontSize: 20),

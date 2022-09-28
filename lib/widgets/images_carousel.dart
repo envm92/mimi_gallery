@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mimi_gallery/models/image.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ImagesCarousel extends StatefulWidget {
   const ImagesCarousel(
@@ -25,12 +26,13 @@ class ImagesCarouselState extends State<ImagesCarousel> {
 
   _goBack() {
     setState(() {
-      _currentSelected -=1;
+      _currentSelected -= 1;
     });
   }
+
   _goForward() {
     setState(() {
-      _currentSelected +=1;
+      _currentSelected += 1;
     });
   }
 
@@ -57,6 +59,7 @@ class ImagesCarouselState extends State<ImagesCarousel> {
             imageUrl: widget.images[_currentSelected].url,
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                   image: imageProvider,
                   fit: BoxFit.contain,
@@ -64,15 +67,29 @@ class ImagesCarouselState extends State<ImagesCarousel> {
               ),
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
-            placeholder: (context, url) => const Icon(Icons.error),
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: const Color(0xFFEBEBF4),
+              highlightColor: const Color(0xFFEBEBF4),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.pinkAccent,
+                    shape: BoxShape.rectangle),
+              ),
+            ),
             fit: BoxFit.fill,
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildButton(Icons.arrow_back, (_currentSelected > 0) ? _goBack :  null),
-            _buildButton(Icons.arrow_forward,(_currentSelected < widget.images.length -1) ? _goForward :  null ),
+            _buildButton(
+                Icons.arrow_back, (_currentSelected > 0) ? _goBack : null),
+            _buildButton(
+                Icons.arrow_forward,
+                (_currentSelected < widget.images.length - 1)
+                    ? _goForward
+                    : null),
           ],
         )
       ],
