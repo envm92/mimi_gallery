@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mimi_gallery/models/image.dart';
 import 'package:mimi_gallery/widgets/images_carousel.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ImagesGridView extends StatelessWidget {
   final List<ImageModel> images;
@@ -42,6 +43,17 @@ class ImagesGridView extends StatelessWidget {
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context,url) => Shimmer.fromColors(
+                baseColor: Colors.black38,
+                highlightColor: Colors.black26,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black38,
+                      shape: BoxShape.rectangle
                   ),
                 ),
               ),
