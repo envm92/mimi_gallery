@@ -36,14 +36,10 @@ class ImagesCarouselState extends State<ImagesCarousel> {
     });
   }
 
-  ElevatedButton _buildButton(IconData iconData, VoidCallback? onPressed) {
-    return ElevatedButton(
+  IconButton _buildButton(IconData iconData, VoidCallback? onPressed) {
+    return IconButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(20),
-      ),
-      child: Icon(iconData, color: Colors.white),
+      icon: Icon(iconData, color: Colors.white),
     );
   }
 
