@@ -67,11 +67,11 @@ class _HomePageState extends State<HomePage> {
                       width: 350,
                       height: 350,
                       child: Shimmer.fromColors(
-                        baseColor: const Color(0xFFEBEBF4),
-                        highlightColor: const Color(0xFFEBEBF4),
+                        baseColor: Colors.black38,
+                        highlightColor: Colors.black26,
                         child: Container(
                           decoration: const BoxDecoration(
-                              color: Colors.pinkAccent,
+                              color: Colors.black38,
                               shape: BoxShape.circle
                           ),
                         ),
@@ -117,15 +117,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ) : Shimmer.fromColors(
-                    baseColor: const Color(0xFFEBEBF4),
-                    highlightColor: Colors.pinkAccent,
+                    baseColor: Colors.black38,
+                    highlightColor: Colors.black26,
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         text: 'Loading...',
                         style: DefaultTextStyle.of(context)
                             .style
-                            .copyWith(fontSize: 20),
+                            .copyWith(fontSize: 15),
                       ),
                     ),
                   )

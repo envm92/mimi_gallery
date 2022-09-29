@@ -68,12 +68,12 @@ class ImagesCarouselState extends State<ImagesCarousel> {
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
             placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: const Color(0xFFEBEBF4),
-              highlightColor: const Color(0xFFEBEBF4),
+              baseColor: Colors.black38,
+              highlightColor: Colors.black26,
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.pinkAccent,
+                    color: Colors.black38,
                     shape: BoxShape.rectangle),
               ),
             ),
@@ -90,6 +90,23 @@ class ImagesCarouselState extends State<ImagesCarousel> {
                 (_currentSelected < widget.images.length - 1)
                     ? _goForward
                     : null),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded( // 20%
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildButton(
+                      Icons.close,
+                      () {
+                        Navigator.pop(context);
+                      })
+                ],
+              ),
+            )
           ],
         )
       ],

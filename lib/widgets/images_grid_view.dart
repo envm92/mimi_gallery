@@ -47,12 +47,12 @@ class ImagesGridView extends StatelessWidget {
                 ),
               ),
               placeholder: (context,url) => Shimmer.fromColors(
-                baseColor: const Color(0xFFEBEBF4),
-                highlightColor: const Color(0xFFEBEBF4),
+                baseColor: Colors.black38,
+                highlightColor: Colors.black26,
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.pinkAccent,
+                      color: Colors.black38,
                       shape: BoxShape.rectangle
                   ),
                 ),
