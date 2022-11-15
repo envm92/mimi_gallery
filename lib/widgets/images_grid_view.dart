@@ -1,18 +1,43 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:mimi_gallery/blocs/images/images_event.dart';
+import 'package:mimi_gallery/blocs/images/images_state.dart';
 import 'package:mimi_gallery/models/image.dart';
 import 'package:mimi_gallery/widgets/images_carousel.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ImagesGridView extends StatelessWidget {
-  final List<ImageModel> images;
+import '../blocs/images/images_bloc.dart';
 
-  const ImagesGridView({Key? key, required this.images}) : super(key: key);
+class ImagesGridView extends StatefulWidget {
+
+  final List<Reference> imagesReferences;
+  const ImagesGridView({Key? key, required this.imagesReferences}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<ImagesGridView> createState() => _ImagesGridViewState();
+}
+
+class _ImagesGridViewState extends State<ImagesGridView> {
+  List<ImageModel> images = [];
+  late ScrollController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController()..addListener(handleScrolling);
+  }
+  void handleScrolling() {
+    if (controller.offset >= controller.position.maxScrollExtent) {
+      var imagesBloc = BlocProvider.of<ImagesBloc>(context);
+      imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from: images.length));
+    }
+  }
+  _buildGrid() {
     return GridView.custom(
+      controller: controller,
       gridDelegate: SliverQuiltedGridDelegate(
         crossAxisCount: 4,
         mainAxisSpacing: 4,
@@ -32,7 +57,7 @@ class ImagesGridView extends StatelessWidget {
               builder: (BuildContext context) => Dialog(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                child: ImagesCarousel(images:images, imageSelected: index),
+                child: ImagesCarousel(images: images, imageSelected: index),
               ),
             ),
             child: CachedNetworkImage(
@@ -62,5 +87,22 @@ class ImagesGridView extends StatelessWidget {
           ),
           childCount: images.length),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var imagesBloc = BlocProvider.of<ImagesBloc>(context);
+    return BlocBuilder(
+        bloc: imagesBloc,
+        builder: (BuildContext context, ImagesState state) {
+          if(state is LoadReferencesSuccess) {
+            imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from:0));
+            return Text('LOADING');
+          }
+          if(state is LoadUrlsSuccess) {
+            images.addAll(state.images);
+          }
+          return _buildGrid();
+        });
   }
 }

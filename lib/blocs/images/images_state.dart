@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mimi_gallery/models/image.dart';
 
 abstract class ImagesState extends Equatable {
@@ -8,14 +9,27 @@ class ImagesInitial extends ImagesState {
   @override
   List<Object> get props => [];
 }
-class LoadProgress extends ImagesState {
+class LoadReferenceProgress extends ImagesState {
   @override
   List<Object> get props => [];
 }
-class LoadSuccess extends ImagesState {
-  final List<ImageModel> images;
+class LoadReferencesSuccess extends ImagesState {
+  final  List<Reference> imagesReferences;
 
-  const LoadSuccess(this.images);
+  const LoadReferencesSuccess(this.imagesReferences);
+
+  @override
+  List<Object> get props => [imagesReferences];
+}
+
+class LoadUrlProgress extends ImagesState {
+  @override
+  List<Object> get props => [];
+}
+class LoadUrlsSuccess extends ImagesState {
+  final  List<ImageModel> images;
+
+  const LoadUrlsSuccess(this.images);
 
   @override
   List<Object> get props => [images];

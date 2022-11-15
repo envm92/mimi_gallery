@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mimi_gallery/blocs/images/images_bloc.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _displayGrid = false;
-  List<ImageModel> images = [];
+  List<Reference> imagesReferences = [];
 
   Future<void> _launchGithub() async {
     Uri uri = Uri(scheme: 'https', host: 'github.com', path: 'envm92');
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   _buildBody() {
     var imagesBloc = BlocProvider.of<ImagesBloc>(context);
     if (_displayGrid) {
-      return ImagesGridView(images: images);
+      return ImagesGridView(imagesReferences: imagesReferences);
     }
     return BlocBuilder(
         bloc: imagesBloc,
@@ -39,8 +40,8 @@ class _HomePageState extends State<HomePage> {
           if (state is ImagesInitial) {
             imagesBloc.add(ListRequested());
           }
-          if (state is LoadSuccess) {
-            images = state.images;
+          if (state is LoadReferencesSuccess) {
+            imagesReferences = state.imagesReferences;
           }
           if (state is LoadFailure) {
             return const ListTile(title: Text('Error'));
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         )),
                   ),
-                  (images.isNotEmpty) ?
+                  (imagesReferences.isNotEmpty) ?
                   ElevatedButton(
                     onPressed: () {
                             setState(() {
