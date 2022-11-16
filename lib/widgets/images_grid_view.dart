@@ -32,7 +32,9 @@ class _ImagesGridViewState extends State<ImagesGridView> {
   void handleScrolling() {
     if (controller.offset >= controller.position.maxScrollExtent) {
       var imagesBloc = BlocProvider.of<ImagesBloc>(context);
-      imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from: images.length));
+      if (imagesBloc.state is LoadUrlsSuccess) {
+        imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from: images.length));
+      }
     }
   }
   _buildGrid() {
