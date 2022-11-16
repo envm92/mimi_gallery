@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mimi_gallery/blocs/images/images_event.dart';
 import 'package:mimi_gallery/blocs/images/images_repository.dart';
@@ -9,10 +10,19 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
 
   ImagesBloc({required this.imagesRepository}) : super(ImagesInitial()) {
     on<ListRequested>((event, emit) async {
-      emit(LoadProgress());
+      emit(LoadReferenceProgress());
       try{
-        List<ImageModel> images = await imagesRepository.getImages(36);
-        emit(LoadSuccess(images));
+        List<Reference>  imagesReferences = await imagesRepository.getReferenceImages();
+        emit(LoadReferencesSuccess(imagesReferences));
+      } catch(error){
+        emit(LoadFailure());
+      }
+    });
+    on<LoadBunchRequested>((event, emit) async {
+      emit(LoadUrlProgress());
+      try{
+        List<ImageModel>  imagesReferences = await imagesRepository.getImages(event.listReference, event.size, from: event.from);
+        emit(LoadUrlsSuccess(imagesReferences));
       } catch(error){
         emit(LoadFailure());
       }
