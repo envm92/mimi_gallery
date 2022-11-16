@@ -8,7 +8,7 @@ class ImagesRepository {
 
   Future<List<Reference>> getReferenceImages() {
     return storageProvider.listAllImages()
-        .then((ListResult listResult) => listResult.items);
+        .then((ListResult listResult) => listResult.items.reversed.toList());
   }
 
 
