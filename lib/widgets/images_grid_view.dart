@@ -36,6 +36,11 @@ class _ImagesGridViewState extends State<ImagesGridView> {
     }
   }
   _buildGrid() {
+    var imagesBloc = BlocProvider.of<ImagesBloc>(context);
+    var count = images.length;
+    if(imagesBloc.state is LoadUrlProgress) {
+      count = count + 1;
+    }
     return GridView.custom(
       controller: controller,
       gridDelegate: SliverQuiltedGridDelegate(
@@ -51,7 +56,17 @@ class _ImagesGridViewState extends State<ImagesGridView> {
         ],
       ),
       childrenDelegate: SliverChildBuilderDelegate(
-              (context, index) => GestureDetector(
+              (context, index) => (imagesBloc.state is LoadUrlProgress && index == count-1 ) ? Center(child: Shimmer.fromColors(
+                baseColor: Colors.black38,
+                highlightColor: Colors.black26,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black38,
+                      shape: BoxShape.rectangle
+                  ),
+                ),
+              )) : GestureDetector(
             onTap: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => Dialog(
@@ -85,7 +100,8 @@ class _ImagesGridViewState extends State<ImagesGridView> {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          childCount: images.length),
+          childCount: count
+      ),
     );
   }
 
@@ -97,7 +113,9 @@ class _ImagesGridViewState extends State<ImagesGridView> {
         builder: (BuildContext context, ImagesState state) {
           if(state is LoadReferencesSuccess) {
             imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from:0));
-            return Text('LOADING');
+          }
+          if (state is LoadUrlProgress && images.length == 0) {
+            return Center( child: CircularProgressIndicator(),);
           }
           if(state is LoadUrlsSuccess) {
             images.addAll(state.images);
