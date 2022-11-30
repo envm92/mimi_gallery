@@ -33,7 +33,7 @@ class _ImagesGridViewState extends State<ImagesGridView> {
     if (controller.offset >= controller.position.maxScrollExtent) {
       var imagesBloc = BlocProvider.of<ImagesBloc>(context);
       if ((imagesBloc.state is LoadUrlProgress) == false) {
-        imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from: images.length));
+        imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 5, from: images.length));
       }
     }
   }
@@ -114,7 +114,7 @@ class _ImagesGridViewState extends State<ImagesGridView> {
         bloc: imagesBloc,
         builder: (BuildContext context, ImagesState state) {
           if(state is LoadReferencesSuccess) {
-            imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 20, from:0));
+            imagesBloc.add(LoadBunchRequested(listReference: widget.imagesReferences,size: 16, from:0));
           }
           if (state is LoadUrlProgress && images.length == 0) {
             return Center( child: CircularProgressIndicator(),);

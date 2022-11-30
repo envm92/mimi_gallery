@@ -34,7 +34,7 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = '2459979044';
+    var serviceWorkerVersion = '2175098102';
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -145,6 +145,9 @@
         return appRunner.runApp();
       });
     });
+    window.flutterConfiguration = {
+      canvasKitMaximumSurfaces: 8
+    };
   </script>
 </body>
 </html>
