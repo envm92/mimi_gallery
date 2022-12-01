@@ -9,4 +9,12 @@ class StorageProvider {
   Future<ListResult> listAllImages() {
     return _listAll('images');
   }
+
+  Future<ListResult> list(limit, [String pageToken = '']) {
+    final storageRef = storage.ref('images');
+    return storageRef.list(ListOptions(
+      maxResults: limit,
+      pageToken: pageToken,
+    ));
+  }
 }
