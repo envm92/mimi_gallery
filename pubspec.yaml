@@ -39,6 +39,8 @@ dependencies:
   firebase_storage: ^10.3.8
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
+  stream_transform: ^2.0.0
+  bloc_concurrency: ^0.2.0
   cached_network_image: ^3.2.1
   font_awesome_flutter: ^10.2.1
   url_launcher: ^6.1.6

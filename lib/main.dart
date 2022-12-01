@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mimi_gallery/blocs/images/images_bloc.dart';
+import 'package:mimi_gallery/blocs/images/images_event.dart';
 import 'package:mimi_gallery/blocs/images/images_repository.dart';
 import 'firebase_options.dart';
 import 'package:mimi_gallery/routes.dart';
@@ -14,7 +15,7 @@ Future<void> main() async {
   final imagesRepository = ImagesRepository();
   runApp(BlocProvider(
       create: (BuildContext context) =>
-          ImagesBloc(imagesRepository: imagesRepository),
+          ImagesBloc(imagesRepository: imagesRepository)..add(ImagesFetched()),
     child: const MimiGallery(),
   ));
 }

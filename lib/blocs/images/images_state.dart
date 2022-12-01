@@ -1,40 +1,35 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mimi_gallery/models/image.dart';
 
-abstract class ImagesState extends Equatable {
-  const ImagesState();
-}
-class ImagesInitial extends ImagesState {
-  @override
-  List<Object> get props => [];
-}
-class LoadReferenceProgress extends ImagesState {
-  @override
-  List<Object> get props => [];
-}
-class LoadReferencesSuccess extends ImagesState {
-  final  List<Reference> imagesReferences;
+enum ImagesStatus { initial, success, failure }
+class ImagesState extends Equatable {
+  const ImagesState({
+    this.status = ImagesStatus.initial,
+    this.images = const <ImageModel>[],
+    this.hasReachedMax = false
+  });
 
-  const LoadReferencesSuccess(this.imagesReferences);
+  final ImagesStatus status;
+  final List<ImageModel> images;
+  final bool hasReachedMax;
 
-  @override
-  List<Object> get props => [imagesReferences];
-}
-
-class LoadUrlProgress extends ImagesState {
-  @override
-  List<Object> get props => [];
-}
-class LoadUrlsSuccess extends ImagesState {
-  final  List<ImageModel> images;
-
-  const LoadUrlsSuccess(this.images);
+  ImagesState copyWith({
+    ImagesStatus? status,
+    List<ImageModel>? images,
+    bool? hasReachedMax
+  }){
+    return ImagesState(
+      status:  status ?? this.status,
+      images: images ?? this.images,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax
+    );
+  }
 
   @override
-  List<Object> get props => [images];
-}
-class LoadFailure extends ImagesState {
+  String toString() {
+    return '''ImagesState { status: $status, hasReachedMax: $hasReachedMax, posts: ${images.length} }''';
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [status, images, hasReachedMax];
 }
